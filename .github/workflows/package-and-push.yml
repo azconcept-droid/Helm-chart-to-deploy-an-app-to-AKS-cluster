@@ -1,0 +1,36 @@
+name: Package and Push Helm Chart
+
+on:
+  push:
+    branches:
+      - production # replace with your specific branch name
+
+jobs:
+  package-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v2
+      with:
+        version: 'v3.0.0' # or the desired Helm version
+
+    - name: Package Helm Chart
+      run: |
+        helm package path/to/your/helm-chart
+        mkdir -p artifacts
+        mv *.tgz artifacts/
+
+    - name: Install Azure CLI
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+
+    - name: Upload to Azure Blob Storage
+      run: |
+        az storage blob upload-batch --account-name your-storage-account-name --account-key ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} --destination your-container-name --source artifacts --pattern "*.tgz"
+      env:
+        AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
