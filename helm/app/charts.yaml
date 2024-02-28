@@ -1,0 +1,8 @@
+apiVersion: v2
+name: web-app
+description: A Helm chart for deploying your simple HTTP app to AKS
+version: 0.1.0
+
+maintainers:
+  - email: azconcept2016@gmail.com
+    name: Yahaya Azeez

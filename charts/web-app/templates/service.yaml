@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "web-app.fullname" . }}
+  labels:
+    app: {{ include "web-app.name" . }}
+    chart: {{ include "web-app.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    app: {{ include "web-app.name" . }}
+    release: {{ .Release.Name | quote }}

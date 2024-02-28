@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "web-app.fullname" . }}
+  labels:
+    app: {{ include "web-app.name" . }}
+    chart: {{ include "web-app.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "web-app.name" . }}
+      release: {{ .Release.Name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "web-app.name" . }}
+        release: {{ .Release.Name | quote }}
+    spec:
+      containers:
+        - name: web-app
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - name: http
+              containerPort: 5000

@@ -20,7 +20,7 @@ jobs:
 
     - name: Package Helm Chart
       run: |
-        helm package path/to/your/helm-chart
+        helm package ../charts/web-app
         mkdir -p artifacts
         mv *.tgz artifacts/
 
