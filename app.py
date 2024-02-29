@@ -3,16 +3,11 @@ from azure.storage.blob import BlobServiceClient
 
 app = Flask(__name__)
 
-# Replace these values with your Azure Storage account information
-account_name = "your_account_name"
-account_key = "your_account_key"
-container_name = "your_container_name"
-
 @app.route('/get_blob_contents', methods=['GET'])
 def get_blob_contents():
     try:
         # Connect to Azure Blob Storage
-        blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net", credential=account_key)
+        blob_service_client = BlobServiceClient(account_url=fblob_account_url, credential=account_key)
         container_client = blob_service_client.get_container_client(container_name)
 
         # List all blobs in the container
