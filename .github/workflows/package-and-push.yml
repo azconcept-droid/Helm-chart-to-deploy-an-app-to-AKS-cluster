@@ -3,7 +3,7 @@ name: Package and Push Helm Chart
 on:
   push:
     branches:
-      - production # replace with your specific branch name
+      - main # production branch name
 
 jobs:
   package-and-push:
