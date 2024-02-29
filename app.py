@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from azure.storage.blob import BlobServiceClient
 from dotenv import load_dotenv
 import os
+import base64
 
 load_dotenv()  # This line brings all environment variables from .env into os.environ
 
@@ -14,11 +15,7 @@ blob_account_url = os.environ['BLOB_ACCOUNT_URL']
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return "Simple HTTP web app"
-
-@app.route('/get_blob_contents', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_blob_contents():
     try:
         # Connect to Azure Blob Storage
@@ -32,12 +29,14 @@ def get_blob_contents():
         blob_contents = {}
         for blob_name in blobs:
             blob_client = container_client.get_blob_client(blob_name)
-            blob_contents[blob_name] = blob_client.download_blob().readall()
+            # Convert bytes to base64 string
+            blob_data = base64.b64encode(blob_client.download_blob().readall()).decode('utf-8')
+            blob_contents[blob_name] = blob_data
 
         return jsonify(blob_contents)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
