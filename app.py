@@ -1,13 +1,28 @@
 from flask import Flask, jsonify
 from azure.storage.blob import BlobServiceClient
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # This line brings all environment variables from .env into os.environ
+
+# Env variables
+account_name = os.environ['ACCOUNT_NAME']
+account_key = os.environ['ACCOUNT_KEY']
+container_name = os.environ['CONTAINER_NAME']
+blob_account_url = os.environ['BLOB_ACCOUNT_URL']
+
 
 app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Simple HTTP web app"
 
 @app.route('/get_blob_contents', methods=['GET'])
 def get_blob_contents():
     try:
         # Connect to Azure Blob Storage
-        blob_service_client = BlobServiceClient(account_url=fblob_account_url, credential=account_key)
+        blob_service_client = BlobServiceClient(account_url=blob_account_url, credential=account_key)
         container_client = blob_service_client.get_container_client(container_name)
 
         # List all blobs in the container
