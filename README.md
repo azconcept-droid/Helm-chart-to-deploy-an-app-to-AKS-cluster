@@ -13,3 +13,13 @@ Considerations:
 - Consider adding a mechanism to validate the application’s health - To develop and deploy your application you can use the k8s cluster in part IV.
 
 The final result of the application, its Dockerfile and its Helm chart should all be present in a single GitHub repository.
+
+## Create .env file
+This is needed for python to store environmetal variables
+```
+ACCOUNT_NAME="your account name"
+ACCOUNT_KEY="access-key string to the container"
+CONTAINER_NAME="container name"
+BLOB_ACCOUNT_URL="https://<storage_account_name>.blob.core.windows.net/"
+```
+Don't forget to add this ```.env``` file to your ```.gitignore``` file
